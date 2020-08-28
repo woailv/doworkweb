@@ -3,7 +3,7 @@ import {camelizeKeys} from 'humps'
 
 const API_ROOT = 'https://api.github.com/'
 
-const callApi = (endpoint, schema) => {
+const callApi = (endpoint) => {
     const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
     return fetch(fullUrl)
         .then(response =>
@@ -50,11 +50,15 @@ export default store => next => action => {
     const [requestType, successType, failureType] = types
     next(actionWith({type: requestType}))//请求中
 
-    return callApi(endpoint, schema).then(
-        response => next(actionWith({//成功
-            response,
-            type: successType
-        })),
+    return callApi(endpoint).then(
+        response => {
+            console.log(successType)
+            console.log(response)
+            next(actionWith({//成功
+                response,
+                type: successType
+            }))
+        },
         error => next(actionWith({//失败
             type: failureType,
             error: error.message || 'Something bad happened'

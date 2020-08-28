@@ -1,6 +1,5 @@
 import {CALL_API} from '../middleware/api'
 
-
 //不显示错误信息
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 export const resetErrorMessage = () => ({
@@ -20,11 +19,7 @@ const fetchUser = login => ({
 })
 
 //获取单个对象示例
-export const loadUser = (login, requiredFields = []) => (dispatch, getState) => {
-    const user = getState().entities.users[login]
-    if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
-        return null
-    }
+export const loadUser = (login) => (dispatch, getState) => {
     return dispatch(fetchUser(login))
 }
 
