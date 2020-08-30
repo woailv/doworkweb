@@ -5,21 +5,19 @@ import thunk from 'redux-thunk'
 import api from './middleware/api'
 import rootReducer from './reducers'
 import {loadUser} from "./actions";
-import { createLogger } from 'redux-logger'
-import DevTools from './containers/DevTools'
+import {createLogger} from 'redux-logger'
 
 let store = createStore(
     rootReducer,
-    compose(
-        applyMiddleware(thunk, api, createLogger()),
-        DevTools.instrument()
-    )
+    applyMiddleware(thunk, api, createLogger()),//createLogger放在api后才能记录api产生的数据
 )
 
 store.dispatch(loadUser("abc"))
 
 ReactDOM.render(
-    <p>aaa</p>,
+    <div>
+        <p>aaa</p>
+    </div>,
     document.getElementById('root')
 );
 

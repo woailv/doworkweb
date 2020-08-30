@@ -13,16 +13,16 @@ const errorMessage = (state = null, action) => {
     return state
 }
 
-const update = ({types, mapActionToKey}) => {
+const update = ({types, key}) => {
     if (!Array.isArray(types) || types.length !== 3) {
         throw new Error('Expected types to be an array of three elements.')
     }
     if (!types.every(t => typeof t === 'string')) {
         throw new Error('Expected types to be strings.')
     }
-    // if (typeof mapActionToKey !== 'function') {
-    //     throw new Error('Expected mapActionToKey to be a function.')
-    // }
+    if (typeof key !== 'string') {
+        throw new Error('Expected key is a string.')
+    }
 
     const [requestType, successType, failureType] = types
 
@@ -61,7 +61,8 @@ const update = ({types, mapActionToKey}) => {
             case failureType:
                 return {
                     ...state,
-                    ["abc"]: updateData(state["abc"], action)
+                    // [key]: updateData(state[key], action)
+                    ...updateData(state[key], action)
                 }
             default:
                 return state
@@ -72,7 +73,7 @@ const update = ({types, mapActionToKey}) => {
 // Updates the pagination data for different actions.
 const data = combineReducers({
     users: update({
-        // mapActionToKey: action => "login",
+        key: "user",
         types: [
             ActionTypes.USER_REQUEST,
             ActionTypes.USER_SUCCESS,
