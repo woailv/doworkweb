@@ -1,6 +1,17 @@
 import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
 
+//正在请求api的状态信息
+const requestMassage = (state = null, action) => {
+    const {type, massage} = action
+    if (type === ActionTypes.RESET_REQUEST_MESSAGE) {
+        return null
+    } else if (massage) {
+        return massage
+    }
+    return state
+}
+
 // 错误信息状态
 const errorMessage = (state = null, action) => {
     const {type, error} = action
@@ -12,15 +23,12 @@ const errorMessage = (state = null, action) => {
     return state
 }
 
-const update = ({types, key}) => {
+const update = ({types}) => {
     if (!Array.isArray(types) || types.length !== 3) {
         throw new Error('Expected types to be an array of three elements.')
     }
     if (!types.every(t => typeof t === 'string')) {
         throw new Error('Expected types to be strings.')
-    }
-    if (typeof key !== 'string') {
-        throw new Error('Expected key is a string.')
     }
 
     const [requestType, successType, failureType] = types
@@ -58,7 +66,7 @@ const update = ({types, key}) => {
             case failureType:
                 return {
                     ...state,
-                    ...updateData(state[key], action)
+                    ...updateData(state, action)
                 }
             default:
                 return state
@@ -68,11 +76,17 @@ const update = ({types, key}) => {
 
 const rootReducer = combineReducers({
     login: update({
-        key: "login",
         types: [
             ActionTypes.LOGIN_REQUEST,
             ActionTypes.LOGIN_SUCCESS,
             ActionTypes.LOGIN_FAILURE,
+        ]
+    }),
+    notesList: update({
+        types: [
+            ActionTypes.NOTE_LIST_REQUEST,
+            ActionTypes.NOTE_LIST_SUCCESS,
+            ActionTypes.NOTE_LIST_FAILURE,
         ]
     }),
     errorMessage,
