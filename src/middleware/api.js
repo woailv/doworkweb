@@ -1,20 +1,22 @@
-import {normalize, schema} from 'normalizr'
-import {camelizeKeys} from 'humps'
+import {POST} from "../actions";
 
-const API_ROOT = 'https://api.github.com/'
+const API_ROOT = 'http://localhost:8888'
 
-const callApi = (endpoint) => {
+const callApi = (endpoint, method, body) => {
     const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
-    return fetch(fullUrl)
-        .then(response =>
-            response.json().then(json => {
-                if (!response.ok) {
-                    return Promise.reject(json)
-                }
-                return Object.assign({}, {...json}
-                )
-            })
-        )
+
+    return fetch(fullUrl,method === POST? {
+        method: method,
+        body: JSON.stringify(body),
+    }:{}).then(response =>
+        response.json().then(json => {
+            if (!response.ok) {
+                return Promise.reject(json)
+            }
+            return Object.assign({}, {...json}
+            )
+        })
+    )
 }
 
 export const CALL_API = 'Call API'
@@ -25,7 +27,7 @@ export default store => next => action => {
         return next(action)
     }
 
-    let {endpoint} = callAPI
+    let {endpoint, method, body} = callAPI
     const {types} = callAPI
     //动态计算请求路径
     if (typeof endpoint === 'function') {
@@ -50,10 +52,8 @@ export default store => next => action => {
     const [requestType, successType, failureType] = types
     next(actionWith({type: requestType}))//请求中
 
-    return callApi(endpoint).then(
+    return callApi(endpoint, method, body).then(
         response => {
-            console.log(successType)
-            console.log(response.json)
             next(actionWith({//成功
                 response,
                 type: successType

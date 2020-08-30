@@ -1,6 +1,5 @@
 import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
-import union from "lodash/union";
 
 // 错误信息状态
 const errorMessage = (state = null, action) => {
@@ -28,7 +27,6 @@ const update = ({types, key}) => {
 
     const updateData = (state = {
         isFetching: false,
-        pageCount: 0,
     }, action) => {
         switch (action.type) {
             case requestType:
@@ -40,7 +38,6 @@ const update = ({types, key}) => {
                 return {
                     ...state,
                     isFetching: false,
-                    pageCount: state.pageCount,
                     data: action.response,
                 }
             case failureType:
@@ -61,7 +58,6 @@ const update = ({types, key}) => {
             case failureType:
                 return {
                     ...state,
-                    // [key]: updateData(state[key], action)
                     ...updateData(state[key], action)
                 }
             default:
@@ -70,8 +66,7 @@ const update = ({types, key}) => {
     }
 }
 
-// Updates the pagination data for different actions.
-const data = combineReducers({
+const rootReducer = combineReducers({
     users: update({
         key: "user",
         types: [
@@ -79,27 +74,15 @@ const data = combineReducers({
             ActionTypes.USER_SUCCESS,
             ActionTypes.USER_FAILURE,
         ]
-    })
-    // starredByUser: update({
-    //     mapActionToKey: action => action.login,
-    //     types: [
-    //         ActionTypes.STARRED_REQUEST,
-    //         ActionTypes.STARRED_SUCCESS,
-    //         ActionTypes.STARRED_FAILURE
-    //     ]
-    // }),
-    // stargazersByRepo: update({
-    //     mapActionToKey: action => action.fullName,
-    //     types: [
-    //         // ActionTypes.STARGAZERS_REQUEST,
-    //         // ActionTypes.STARGAZERS_SUCCESS,
-    //         // ActionTypes.STARGAZERS_FAILURE
-    //     ]
-    // })
-})
-
-const rootReducer = combineReducers({
-    data,
+    }),
+    login: update({
+        key: "login",
+        types: [
+            ActionTypes.LOGIN_REQUEST,
+            ActionTypes.LOGIN_SUCCESS,
+            ActionTypes.LOGIN_FAILURE,
+        ]
+    }),
     errorMessage,
 })
 
