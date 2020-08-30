@@ -11,7 +11,7 @@ const callApi = (endpoint) => {
                 if (!response.ok) {
                     return Promise.reject(json)
                 }
-                return Object.assign({}, {json}
+                return Object.assign({}, {...json}
                 )
             })
         )
@@ -53,7 +53,7 @@ export default store => next => action => {
     return callApi(endpoint).then(
         response => {
             console.log(successType)
-            console.log(response)
+            console.log(response.json)
             next(actionWith({//成功
                 response,
                 type: successType

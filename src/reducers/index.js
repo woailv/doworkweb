@@ -20,9 +20,9 @@ const update = ({types, mapActionToKey}) => {
     if (!types.every(t => typeof t === 'string')) {
         throw new Error('Expected types to be strings.')
     }
-    if (typeof mapActionToKey !== 'function') {
-        throw new Error('Expected mapActionToKey to be a function.')
-    }
+    // if (typeof mapActionToKey !== 'function') {
+    //     throw new Error('Expected mapActionToKey to be a function.')
+    // }
 
     const [requestType, successType, failureType] = types
 
@@ -40,7 +40,8 @@ const update = ({types, mapActionToKey}) => {
                 return {
                     ...state,
                     isFetching: false,
-                    pageCount: state.pageCount
+                    pageCount: state.pageCount,
+                    data: action.response,
                 }
             case failureType:
                 return {
@@ -58,13 +59,9 @@ const update = ({types, mapActionToKey}) => {
             case requestType:
             case successType:
             case failureType:
-                const key = mapActionToKey(action)//action结果对应的key值
-                if (typeof key !== 'string') {
-                    throw new Error('Expected key to be a string.')
-                }
                 return {
                     ...state,
-                    [key]: updateData(state[key], action)
+                    ["abc"]: updateData(state["abc"], action)
                 }
             default:
                 return state
@@ -75,7 +72,7 @@ const update = ({types, mapActionToKey}) => {
 // Updates the pagination data for different actions.
 const data = combineReducers({
     users: update({
-        mapActionToKey: action => "login",
+        // mapActionToKey: action => "login",
         types: [
             ActionTypes.USER_REQUEST,
             ActionTypes.USER_SUCCESS,
