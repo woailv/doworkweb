@@ -5,10 +5,11 @@ const API_ROOT = 'http://localhost:8888'
 const callApi = (endpoint, method, body) => {
     const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
 
-    return fetch(fullUrl,method === POST? {
+    return fetch(fullUrl, method === POST ? {
         method: method,
         body: JSON.stringify(body),
-    }:{}).then(response =>
+        credentials: "include",
+    } : {}).then(response =>
         response.json().then(json => {
             if (!response.ok) {
                 return Promise.reject(json)

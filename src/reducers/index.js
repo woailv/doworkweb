@@ -67,14 +67,6 @@ const update = ({types, key}) => {
 }
 
 const rootReducer = combineReducers({
-    users: update({
-        key: "user",
-        types: [
-            ActionTypes.USER_REQUEST,
-            ActionTypes.USER_SUCCESS,
-            ActionTypes.USER_FAILURE,
-        ]
-    }),
     login: update({
         key: "login",
         types: [
