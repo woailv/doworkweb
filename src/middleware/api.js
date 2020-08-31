@@ -45,7 +45,9 @@ export default store => next => action => {
     }
     //修改提交action中的type与数据并删除types
     const actionWith = data => {
+        console.log(action)
         const finalAction = Object.assign({}, action, data)
+        console.log(finalAction)
         delete finalAction[CALL_API]
         return finalAction
     }

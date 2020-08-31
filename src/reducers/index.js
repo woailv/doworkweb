@@ -1,13 +1,13 @@
 import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
 
-//正在请求api的状态信息
-const requestMassage = (state = null, action) => {
-    const {type, massage} = action
-    if (type === ActionTypes.RESET_REQUEST_MESSAGE) {
+//修改数据结果
+const modifyInfo = (state = null, action) => {
+    const {type, data} = action
+    if (type === ActionTypes.RESET_MODIFY_INFO) {
         return null
-    } else if (massage) {
-        return massage
+    } else if (data) {
+        return data
     }
     return state
 }
@@ -90,6 +90,7 @@ const rootReducer = combineReducers({
         ]
     }),
     errorMessage,
+    modifyInfo,
 })
 
 export default rootReducer
