@@ -3,11 +3,11 @@ import {combineReducers} from 'redux'
 
 //修改数据结果
 const modifyInfo = (state = null, action) => {
-    const {type, data} = action
+    const {type, data, response} = action
     if (type === ActionTypes.RESET_MODIFY_INFO) {
         return null
     } else if (data) {
-        return data
+        return data ? (response ? (response.code === 1 ? data + "成功" : data + "失败"+response.msg) : data) : null
     }
     return state
 }

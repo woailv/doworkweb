@@ -4,9 +4,9 @@ export let POST = "POST"
 export let GET = "GET";
 
 export const MODIFY_DATA = "MODIFY_DATA"
-export const MODIFY_SUCCESS = "MODIFY_SUCCESS"
+export const MODIFY_RESULT = "MODIFY_SUCCESS"
 export const MODIFY_FAILURE = "MODIFY_FAILURE"
-export const RESET_MODIFY_INFO = "RESET_REQUEST_MESSAGE"
+export const RESET_MODIFY_INFO = "RESET_MODIFY_INFO"
 
 //隐藏正在请求api的状态信息
 export const resetModifyInfo = () => ({
@@ -18,7 +18,7 @@ export const NOTE_ADD_REQUEST = 'NOTE_ADD_REQUEST'
 export const noteAdd = (data) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [MODIFY_DATA, MODIFY_SUCCESS, MODIFY_FAILURE],
+            types: [MODIFY_DATA, MODIFY_RESULT, MODIFY_FAILURE],
             endpoint: `/api/note/add`,
             method: POST,
             body: data,

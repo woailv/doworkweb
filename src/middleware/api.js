@@ -1,4 +1,4 @@
-import {POST} from "../actions";
+import {MODIFY_DATA, POST, resetModifyInfo} from "../actions";
 
 const API_ROOT = 'http://localhost:8888'
 
@@ -45,10 +45,8 @@ export default store => next => action => {
     }
     //修改提交action中的type与数据并删除types
     const actionWith = data => {
-        console.log(action)
         const finalAction = Object.assign({}, action, data)
-        console.log(finalAction)
-        delete finalAction[CALL_API]
+        delete finalAction[CALL_API]//删除键
         return finalAction
     }
 
@@ -61,6 +59,9 @@ export default store => next => action => {
                 response,
                 type: successType
             }))
+            if (requestType === MODIFY_DATA) {
+                setTimeout(() => next(resetModifyInfo()), 2000)
+            }
         },
         error => next(actionWith({//失败
             type: failureType,
