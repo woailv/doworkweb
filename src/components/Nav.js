@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Menu} from 'antd';
+import {Link,withRouter} from "react-router-dom";
+
 
 class Nav extends Component {
 
@@ -22,14 +24,15 @@ class Nav extends Component {
                   selectedKeys={[this.state.current]}
             >
                 <Menu.Item key="work">
-                    Work
+                    <Link to="/">work</Link>
                 </Menu.Item>
                 <Menu.Item key="note">
-                    笔记
+                    <Link to="/note">note</Link>
                 </Menu.Item>
             </Menu>
         );
     }
 }
 
-export default Nav
+export default  Nav
+
