@@ -1,37 +1,23 @@
 import React from 'react';
-import {Row, Col} from 'antd';
 import 'antd/dist/antd.css';
 import Nav from "../components/Nav";
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
-import Head from "../components/Head";
+import {connect} from 'react-redux'
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Work from "./Work";
+import WorkAdd from "./WorkAdd";
+import {Provider} from 'react-redux'
 
-const App = () => (
-    <Router>
-        <Nav/>
-        <Row>
-            <Col style={{backgroundColor: "#eff"}} span={3}>
-                查询区
-            </Col>
-            <Col span={21}>
-                <Row style={{backgroundColor: "#ffe"}}>
-                    <Head/>
-                </Row>
-                <Row>
-                    <Switch>
-                        <Route exact path="/" children={<Work/>}/>
-                        <Route path="/note" children={"noteToDo"}/>
-                    </Switch>
-                </Row>
-            </Col>
-        </Row>
-    </Router>
+const App = ({store}) => (
+    <Provider store={store}>
+        <Router>
+            <Nav/>
+            <Switch>
+                <Route exact path="/" component={Work}/>
+                <Route exact path="/work" component={Work}/>
+                <Route path="/work/add" children={WorkAdd}/>
+            </Switch>
+        </Router>
+    </Provider>
 )
-
 
 export default App

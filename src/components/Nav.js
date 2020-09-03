@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Menu} from 'antd';
-import {Link,withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 class Nav extends Component {
@@ -26,9 +26,9 @@ class Nav extends Component {
                 <Menu.Item key="work">
                     <Link to="/">work</Link>
                 </Menu.Item>
-                <Menu.Item key="note">
-                    <Link to="/note">note</Link>
-                </Menu.Item>
+                {/*<Menu.Item key="note">*/}
+                {/*    <Link to="/note">note</Link>*/}
+                {/*</Menu.Item>*/}
             </Menu>
         );
     }

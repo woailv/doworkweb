@@ -15,13 +15,13 @@ export const resetModifyInfo = () => ({
 
 //note新建
 export const NOTE_ADD_REQUEST = 'NOTE_ADD_REQUEST'
-export const noteAdd = (data) => (dispatch) => {
+export const noteAdd = (text) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
             types: [MODIFY_DATA, MODIFY_RESULT, MODIFY_FAILURE],
             endpoint: `/api/note/add`,
             method: POST,
-            body: data,
+            body: {text: text},
         },
         data: "note新建",
     })
