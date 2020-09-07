@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import WorkItem from "../components/WorkItem";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {noteList} from "../actions";
+import {noteDel, noteList} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Col, Row, Pagination} from "antd";
 
@@ -12,6 +12,7 @@ class Work extends Component {
         list: PropTypes.array,
         isFetching: PropTypes.bool,
         load: PropTypes.func,
+        del: PropTypes.func,
     }
 
     componentDidMount() {
@@ -29,7 +30,9 @@ class Work extends Component {
                     <WorkHead/>
                     {isFetching ? "正在获取数据..." : ""}
                     <div>
-                        {list ? list.map((item, index) => (<WorkItem workItem={item}/>)) : "没有数据"}
+                        {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item} del={() => {
+                            this.props.del(item.id)
+                        }}/>)) : "没有数据"}
                     </div>
                     <Pagination onChange={(page) => {
                         this.props.load(page)
@@ -51,6 +54,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         load: (page) => dispatch(noteList("note", page)),
+        del: (id) => dispatch(noteDel(id)).then(()=>dispatch(noteList("note", 1))),
     }
 }
 

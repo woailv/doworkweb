@@ -43,6 +43,23 @@ export const noteList = (data, page) => (dispatch) => {
     })
 }
 
+//note删除
+export const NOTE_DEL_REQUEST = 'NOTE_Del_REQUEST'
+export const NOTE_DEL_SUCCESS = 'NOTE_Del_SUCCESS'
+export const NOTE_DEL_FAILURE = 'NOTE_Del_FAILURE'
+export const noteDel = (id) => (dispatch) => {
+    return dispatch({
+        [CALL_API]: {
+            types: [NOTE_DEL_REQUEST, NOTE_DEL_SUCCESS, NOTE_DEL_FAILURE],
+            endpoint: `/api/note/del`,
+            method: POST,
+            body: {id: id},
+        },
+        needRefresh: true,
+        refresh: noteList(null, 1)
+    })
+}
+
 //登录
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'

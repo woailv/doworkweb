@@ -1,4 +1,4 @@
-import {MODIFY_DATA, POST, resetModifyInfo} from "../actions";
+import {MODIFY_DATA, noteList, POST, resetModifyInfo} from "../actions";
 
 const API_ROOT = 'http://localhost:8888'
 
@@ -55,7 +55,6 @@ export default store => next => action => {
 
     const [requestType, successType, failureType] = types
     next(actionWith({type: requestType}))//请求中
-
     return callApi(endpoint, method, body, page).then(
         response => {
             next(actionWith({//成功
