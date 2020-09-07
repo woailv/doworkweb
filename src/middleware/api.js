@@ -2,8 +2,11 @@ import {MODIFY_DATA, POST, resetModifyInfo} from "../actions";
 
 const API_ROOT = 'http://localhost:8888'
 
-const callApi = (endpoint, method, body) => {
-    const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
+const callApi = (endpoint, method, body, page) => {
+    let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
+    if (page > 0) {
+        fullUrl += "?page=" + page
+    }
 
     return fetch(fullUrl, method === POST ? {
         method: method,
@@ -28,7 +31,7 @@ export default store => next => action => {
         return next(action)
     }
 
-    let {endpoint, method, body} = callAPI
+    let {endpoint, method, body, page} = callAPI
     const {types} = callAPI
     //动态计算请求路径
     if (typeof endpoint === 'function') {
@@ -53,7 +56,7 @@ export default store => next => action => {
     const [requestType, successType, failureType] = types
     next(actionWith({type: requestType}))//请求中
 
-    return callApi(endpoint, method, body).then(
+    return callApi(endpoint, method, body, page).then(
         response => {
             next(actionWith({//成功
                 response,

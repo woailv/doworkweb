@@ -31,13 +31,14 @@ export const noteAdd = (text) => (dispatch) => {
 export const NOTE_LIST_REQUEST = 'NOTE_LIST_REQUEST'
 export const NOTE_LIST_SUCCESS = 'NOTE_LIST_SUCCESS'
 export const NOTE_LIST_FAILURE = 'NOTE_LIST_FAILURE'
-export const noteList = (data) => (dispatch) => {
+export const noteList = (data, page) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
             types: [NOTE_LIST_REQUEST, NOTE_LIST_SUCCESS, NOTE_LIST_FAILURE],
             endpoint: `/api/note/list`,
             method: POST,
             body: data,
+            page: page,
         },
     })
 }

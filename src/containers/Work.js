@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {noteList} from "../actions";
 import WorkHead from "../components/WorkHead";
-import {Col, Row} from "antd";
+import {Col, Row, Pagination} from "antd";
 
 class Work extends Component {
     static propTypes = {
@@ -15,14 +15,14 @@ class Work extends Component {
     }
 
     componentDidMount() {
-        this.props.load()
+        this.props.load(1)
     }
 
     render() {
         let {total, list, isFetching} = this.props
         return (
             <Row>
-                <Col style={{backgroundColor: "#eff"}} span={3}>
+                <Col style={{backgroundColor: ""}} span={3}>
                 </Col>
 
                 <Col>
@@ -31,7 +31,9 @@ class Work extends Component {
                     <div>
                         {list ? list.map((item, index) => (<WorkItem workItem={item}/>)) : "没有数据"}
                     </div>
-                    <p>筛选出 {total ? total : 0} 条</p>
+                    <Pagination onChange={(page) => {
+                        this.props.load(page)
+                    }} simple total={total ? total : 0}/>
                 </Col>
             </Row>
         )
@@ -48,7 +50,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: () => dispatch(noteList("note")),
+        load: (page) => dispatch(noteList("note", page)),
     }
 }
 
