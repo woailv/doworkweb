@@ -36,7 +36,7 @@ class Work extends Component {
                     </div>
                     <Pagination onChange={(page) => {
                         this.props.load(page)
-                    }} simple total={total ? total : 0}/>
+                    }} simple total={total ? total : 1}/>
                 </Col>
             </Row>
         )
