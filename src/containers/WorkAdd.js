@@ -2,19 +2,24 @@ import React from 'react';
 import {Button, Input} from 'antd';
 import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux"
-import {noteAdd} from "../actions";
+import {noteAdd, noteUpdate} from "../actions";
 
-const WorkAdd = ({save}) => {
+const WorkAdd = ({save, location, history}) => {
+    let {state} = location
     let text;
     return (
         <div>
-            <Input style={{height: "200px"}} type="textarea" autosize={{minRows: 2, maxRows: 6}} onChange={(event) => {
-                text = event.target.value
-            }}/>
+            <Input defaultValue={state && state.text} style={{height: "200px"}} type="textarea"
+                   autosize={{minRows: 2, maxRows: 6}}
+                   onChange={(event) => {
+                       text = event.target.value
+                   }}/>
             <Button type="primary" onClick={() => {
-                save(text)
+                save(text, state ? state.id : 0).then(
+                    history.push("/work")
+                )
             }}>
-                <Link to="/work">保存</Link>
+                保存
             </Button>
         </div>
     )
@@ -22,10 +27,15 @@ const WorkAdd = ({save}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        save: (text) => {
-            dispatch(noteAdd(text))
+        save: (text, id) => {
+            if (text === "" || text === undefined) {
+                return Promise.reject()
+            }
+            return id ? dispatch(noteUpdate({id, text})) : dispatch(noteAdd(text))
         }
     }
 }
 
-export default withRouter(connect((state)=>{},mapDispatchToProps)(WorkAdd))
+export default withRouter(connect((state) => {
+    return state
+}, mapDispatchToProps)(WorkAdd))

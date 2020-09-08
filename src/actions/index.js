@@ -44,9 +44,9 @@ export const noteList = (data, page) => (dispatch) => {
 }
 
 //note删除
-export const NOTE_DEL_REQUEST = 'NOTE_Del_REQUEST'
-export const NOTE_DEL_SUCCESS = 'NOTE_Del_SUCCESS'
-export const NOTE_DEL_FAILURE = 'NOTE_Del_FAILURE'
+export const NOTE_DEL_REQUEST = 'NOTE_DEL_REQUEST'
+export const NOTE_DEL_SUCCESS = 'NOTE_DEL_SUCCESS'
+export const NOTE_DEL_FAILURE = 'NOTE_DEL_FAILURE'
 export const noteDel = (id) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
@@ -55,8 +55,21 @@ export const noteDel = (id) => (dispatch) => {
             method: POST,
             body: {id: id},
         },
-        needRefresh: true,
-        refresh: noteList(null, 1)
+    })
+}
+
+//note更新
+export const NOTE_UPDATE_REQUEST = 'NOTE_UPDATE_REQUEST'
+export const NOTE_UPDATE_SUCCESS = 'NOTE_UPDATE_SUCCESS'
+export const NOTE_UPDATE_FAILURE = 'NOTE_UPDATE_FAILURE'
+export const noteUpdate = (data) => (dispatch) => {
+    return dispatch({
+        [CALL_API]: {
+            types: [NOTE_UPDATE_REQUEST, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_FAILURE],
+            endpoint: `/api/note/update`,
+            method: POST,
+            body: data,
+        },
     })
 }
 
