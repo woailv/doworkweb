@@ -13,12 +13,20 @@ const WorkAdd = ({save, location, history}) => {
                    autosize={{minRows: 2, maxRows: 6}}
                    onChange={(event) => {
                        text = event.target.value
-                   }}/>
-            <Button type="primary" onClick={() => {
-                save(text, state ? state.id : 0).then(
-                    history.push("/work")
-                )
-            }}>
+                   }}
+                   onPressEnter={() => {
+                       save(text, state ? state.id : 0).then(
+                           history.push("/work")
+                       )
+                   }}
+            />
+            <Button type="primary"
+                    onClick={() => {
+                        save(text, state ? state.id : 0).then(
+                            history.push("/work")
+                        )
+                    }}
+            >
                 保存
             </Button>
         </div>
