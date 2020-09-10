@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Input} from 'antd';
 import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux"
-import {noteAdd, noteUpdate} from "../actions";
+import {workAdd, workUpdate} from "../actions";
 
 const WorkAdd = ({save, location, history}) => {
     let {state} = location
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
             if (text === "" || text === undefined) {
                 return Promise.reject()
             }
-            return id ? dispatch(noteUpdate({id, text})) : dispatch(noteAdd(text))
+            return id ? dispatch(workUpdate({id, text})) : dispatch(workAdd(text))
         }
     }
 }

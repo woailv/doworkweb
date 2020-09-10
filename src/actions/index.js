@@ -4,7 +4,7 @@ export let POST = "POST"
 export let GET = "GET";
 
 export const MODIFY_DATA = "MODIFY_DATA"
-export const MODIFY_RESULT = "MODIFY_SUCCESS"
+export const MODIFY_SUCCESS = "MODIFY_SUCCESS"
 export const MODIFY_FAILURE = "MODIFY_FAILURE"
 export const RESET_MODIFY_INFO = "RESET_MODIFY_INFO"
 
@@ -13,29 +13,31 @@ export const resetModifyInfo = () => ({
     type: RESET_MODIFY_INFO
 })
 
-//note新建
-export const NOTE_ADD_REQUEST = 'NOTE_ADD_REQUEST'
-export const noteAdd = (text) => (dispatch) => {
+//work新建
+export const WORK_ADD_REQUEST = 'WORK_ADD_REQUEST'
+export const WORK_ADD_SUCCESS = 'WORK_ADD_SUCCESS'
+export const WORK_ADD_FAILURE = 'WORK_ADD_FAILURE'
+export const workAdd = (text) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [MODIFY_DATA, MODIFY_RESULT, MODIFY_FAILURE],
-            endpoint: `/api/note/add`,
+            types: [WORK_ADD_REQUEST, WORK_ADD_SUCCESS, WORK_ADD_FAILURE],
+            endpoint: `/api/work/add`,
             method: POST,
             body: {text: text},
         },
-        data: "note新建",
+        data: "work新建",
     })
 }
 
-//note列表
-export const NOTE_LIST_REQUEST = 'NOTE_LIST_REQUEST'
-export const NOTE_LIST_SUCCESS = 'NOTE_LIST_SUCCESS'
-export const NOTE_LIST_FAILURE = 'NOTE_LIST_FAILURE'
-export const noteList = (data, page) => (dispatch) => {
+//work列表
+export const WORK_LIST_REQUEST = 'WORK_LIST_REQUEST'
+export const WORK_LIST_SUCCESS = 'WORK_LIST_SUCCESS'
+export const WORK_LIST_FAILURE = 'WORK_LIST_FAILURE'
+export const workList = (data, page) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [NOTE_LIST_REQUEST, NOTE_LIST_SUCCESS, NOTE_LIST_FAILURE],
-            endpoint: `/api/note/list`,
+            types: [WORK_LIST_REQUEST, WORK_LIST_SUCCESS, WORK_LIST_FAILURE],
+            endpoint: `/api/work/list`,
             method: POST,
             body: data,
             page: page,
@@ -43,30 +45,30 @@ export const noteList = (data, page) => (dispatch) => {
     })
 }
 
-//note删除
-export const NOTE_DEL_REQUEST = 'NOTE_DEL_REQUEST'
-export const NOTE_DEL_SUCCESS = 'NOTE_DEL_SUCCESS'
-export const NOTE_DEL_FAILURE = 'NOTE_DEL_FAILURE'
-export const noteDel = (id) => (dispatch) => {
+//work删除
+export const WORK_DEL_REQUEST = 'WORK_DEL_REQUEST'
+export const WORK_DEL_SUCCESS = 'WORK_DEL_SUCCESS'
+export const WORK_DEL_FAILURE = 'WORK_DEL_FAILURE'
+export const workDel = (id) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [NOTE_DEL_REQUEST, NOTE_DEL_SUCCESS, NOTE_DEL_FAILURE],
-            endpoint: `/api/note/del`,
+            types: [WORK_DEL_REQUEST, WORK_DEL_SUCCESS, WORK_DEL_FAILURE],
+            endpoint: `/api/work/del`,
             method: POST,
             body: {id: id},
         },
     })
 }
 
-//note更新
-export const NOTE_UPDATE_REQUEST = 'NOTE_UPDATE_REQUEST'
-export const NOTE_UPDATE_SUCCESS = 'NOTE_UPDATE_SUCCESS'
-export const NOTE_UPDATE_FAILURE = 'NOTE_UPDATE_FAILURE'
-export const noteUpdate = (data) => (dispatch) => {
+//work更新
+export const WORK_UPDATE_REQUEST = 'WORK_UPDATE_REQUEST'
+export const WORK_UPDATE_SUCCESS = 'WORK_UPDATE_SUCCESS'
+export const WORK_UPDATE_FAILURE = 'WORK_UPDATE_FAILURE'
+export const workUpdate = (data) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [NOTE_UPDATE_REQUEST, NOTE_UPDATE_SUCCESS, NOTE_UPDATE_FAILURE],
-            endpoint: `/api/note/update`,
+            types: [WORK_UPDATE_REQUEST, WORK_UPDATE_SUCCESS, WORK_UPDATE_FAILURE],
+            endpoint: `/api/work/setText`,
             method: POST,
             body: data,
         },

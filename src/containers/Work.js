@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import WorkItem from "../components/WorkItem";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {noteDel, noteList} from "../actions";
+import {workDel, workList} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Col, Row, Pagination} from "antd";
 
@@ -45,16 +45,16 @@ class Work extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        list: state.notesList ? (state.notesList.data ? state.notesList.data.data.list : []) : [],
-        total: state.notesList ? (state.notesList.data ? state.notesList.data.data.total : 0) : 0,
-        isFetching: state.notesList ? state.notesList.isFetching : false,
+        list: state.workList ? (state.workList.data ? state.workList.data.data.list : []) : [],
+        total: state.workList ? (state.workList.data ? state.workList.data.data.total : 0) : 0,
+        isFetching: state.workList ? state.workList.isFetching : false,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: (page) => dispatch(noteList("note", page)),
-        del: (id) => dispatch(noteDel(id)).then(() => dispatch(noteList("note", 1))),
+        load: (page) => dispatch(workList("note", page)),
+        del: (id) => dispatch(workDel(id)).then(() => dispatch(workList("note", 1))),
     }
 }
 

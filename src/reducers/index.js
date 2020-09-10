@@ -7,7 +7,7 @@ const modifyInfo = (state = null, action) => {
     if (type === ActionTypes.RESET_MODIFY_INFO) {
         return null
     } else if (data) {
-        return data ? (response ? (response.code === 1 ? data + "成功" : data + "失败"+response.msg) : data) : null
+        return data ? (response ? (response.code === 1 ? data + "成功" : data + "失败" + response.msg) : data) : null
     }
     return state
 }
@@ -82,11 +82,11 @@ const rootReducer = combineReducers({
             ActionTypes.LOGIN_FAILURE,
         ]
     }),
-    notesList: update({
+    workList: update({
         types: [
-            ActionTypes.NOTE_LIST_REQUEST,
-            ActionTypes.NOTE_LIST_SUCCESS,
-            ActionTypes.NOTE_LIST_FAILURE,
+            ActionTypes.WORK_LIST_REQUEST,
+            ActionTypes.WORK_LIST_SUCCESS,
+            ActionTypes.WORK_LIST_FAILURE,
         ]
     }),
     errorMessage,
