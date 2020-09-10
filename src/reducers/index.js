@@ -67,7 +67,7 @@ const update = ({types}) => {
                 }
             default:
                 let {modify} = action
-                if (modify !== undefined && state.data !== undefined) {
+                if (modify !== undefined && state.data !== undefined && state.data.data !== undefined && state.data.data.list !== undefined) {
                     if (action.response !== undefined && action.response.code === 1) {
                         state.data.data.list = modify(state.data.data.list)
                     }
