@@ -4,8 +4,7 @@ import {Link} from "react-router-dom";
 
 const ButtonGroup = Button.Group;
 
-const WorkItem = ({workItem, del}) => {
-    let completed = false
+const WorkItem = ({workItem, del, setCompleted}) => {
     return (
         workItem ? (<div style={{
             paddingBottom: "5px",
@@ -15,11 +14,13 @@ const WorkItem = ({workItem, del}) => {
             <div>
                 <Checkbox
                     onChange={() => {
-                        completed = !completed
-                    }}>
-                    {completed ? "已完成" : "未完成"}
+                        setCompleted()
+                    }}
+                    checked={workItem.completed}
+                >
+                    {workItem.completed ? "已完成" : "未完成"}
                 </Checkbox>
-                <span>{workItem.time_view}</span>
+                <span>{workItem.belong_date}</span>
                 <ButtonGroup size="small">
                     <Popconfirm title="确定要删除吗？" cancelText={"取消"} okText={"确定"} onConfirm={() => del()}>
                         <a style={{"paddingLeft": "5px", "paddingRight": "5px"}} href="#">删除</a>

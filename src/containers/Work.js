@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import WorkItem from "../components/WorkItem";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {workDel, workList} from "../actions";
+import {workDel, workList, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Col, Row, Pagination} from "antd";
 
@@ -13,6 +13,7 @@ class Work extends Component {
         isFetching: PropTypes.bool,
         load: PropTypes.func,
         del: PropTypes.func,
+        setCompleted: PropTypes.func,
     }
 
     componentDidMount() {
@@ -30,9 +31,17 @@ class Work extends Component {
                     <WorkHead/>
                     {isFetching ? "正在获取数据..." : ""}
                     <div style={{paddingBottom: "15px"}}>
-                        {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item} del={() => {
-                            this.props.del(item.id)
-                        }}/>)) : "没有数据"}
+                        {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
+                                                                     del={() => {
+                                                                         this.props.del(item.id)
+                                                                     }}
+                                                                     setCompleted={() => {
+                                                                         this.props.setCompleted({
+                                                                             id: item.id,
+                                                                             completed: !item.completed
+                                                                         })
+                                                                     }}
+                        />)) : "没有数据"}
                     </div>
                     <Pagination onChange={(page) => {
                         this.props.load(page)
@@ -54,7 +63,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         load: (page) => dispatch(workList("note", page)),
-        del: (id) => dispatch(workDel(id)).then(() => dispatch(workList("note", 1))),
+        del: (id) => dispatch(workDel(id)).then(() => dispatch(workList({}, 1))),
+        setCompleted: (work) => dispatch(workSetCompleted(work)),
     }
 }
 

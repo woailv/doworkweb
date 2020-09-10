@@ -1,4 +1,4 @@
-import {MODIFY_DATA, noteList, POST, resetModifyInfo} from "../actions";
+import {MODIFY_DATA, POST, resetModifyInfo} from "../actions";
 
 const API_ROOT = 'http://localhost:8888'
 

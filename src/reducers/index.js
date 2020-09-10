@@ -24,9 +24,6 @@ const errorMessage = (state = null, action) => {
 }
 
 const update = ({types}) => {
-    if (!Array.isArray(types) || types.length !== 3) {
-        throw new Error('Expected types to be an array of three elements.')
-    }
     if (!types.every(t => typeof t === 'string')) {
         throw new Error('Expected types to be strings.')
     }
@@ -43,10 +40,11 @@ const update = ({types}) => {
                     isFetching: true
                 }
             case successType:
+                let data = action.response
                 return {
                     ...state,
                     isFetching: false,
-                    data: action.response,
+                    data: data,
                 }
             case failureType:
                 return {
@@ -59,7 +57,6 @@ const update = ({types}) => {
     }
 
     return (state = {}, action) => {
-        // Update pagination by key
         switch (action.type) {
             case requestType:
             case successType:
@@ -69,6 +66,12 @@ const update = ({types}) => {
                     ...updateData(state, action)
                 }
             default:
+                let {modify} = action
+                if (modify !== undefined && state.data !== undefined) {
+                    if (action.response !== undefined && action.response.code === 1) {
+                        state.data.data.list = modify(state.data.data.list)
+                    }
+                }
                 return state
         }
     }

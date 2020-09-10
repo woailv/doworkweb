@@ -14,13 +14,10 @@ export const resetModifyInfo = () => ({
 })
 
 //work新建
-export const WORK_ADD_REQUEST = 'WORK_ADD_REQUEST'
-export const WORK_ADD_SUCCESS = 'WORK_ADD_SUCCESS'
-export const WORK_ADD_FAILURE = 'WORK_ADD_FAILURE'
 export const workAdd = (text) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [WORK_ADD_REQUEST, WORK_ADD_SUCCESS, WORK_ADD_FAILURE],
+            types: [MODIFY_DATA, MODIFY_SUCCESS, MODIFY_FAILURE],
             endpoint: `/api/work/add`,
             method: POST,
             body: {text: text},
@@ -42,6 +39,11 @@ export const workList = (data, page) => (dispatch) => {
             body: data,
             page: page,
         },
+        modify: (list) => {
+            return list.map((v) => {
+                return v
+            })
+        }
     })
 }
 
@@ -71,6 +73,27 @@ export const workUpdate = (data) => (dispatch) => {
             endpoint: `/api/work/setText`,
             method: POST,
             body: data,
+        },
+    })
+}
+
+//work修改完成状态
+export const WORK_SET_COMPLETED_REQUEST = 'WORK_SET_COMPLETED_REQUEST'
+export const WORK_SET_COMPLETED_SUCCESS = 'WORK_SET_COMPLETED_SUCCESS'
+export const WORK_SET_COMPLETED_FAILURE = 'WORK_SET_COMPLETED_FAILURE'
+export const workSetCompleted = (data) => (dispatch) => {
+    return dispatch({
+        [CALL_API]: {
+            types: [WORK_SET_COMPLETED_REQUEST, WORK_SET_COMPLETED_SUCCESS, WORK_SET_COMPLETED_FAILURE],
+            endpoint: `/api/work/setCompleted`,
+            method: POST,
+            body: data,
+        },
+        data: "work修改完成状态",
+        modify: (list) => {
+            return list.map((v) => {
+                return {...v, completed: v.id == data.id ? data.completed : v.completed}
+            })
         },
     })
 }
