@@ -1,4 +1,4 @@
-import {MODIFY_DATA, POST, resetModifyInfo} from "../actions";
+import { POST,} from "../actions";
 
 const API_ROOT = 'http://localhost:8888'
 
@@ -61,9 +61,6 @@ export default store => next => action => {
                 response,
                 type: successType
             }))
-            if (requestType === MODIFY_DATA) {
-                setTimeout(() => next(resetModifyInfo()), 2000)
-            }
         },
         error => next(actionWith({//失败
             type: failureType,

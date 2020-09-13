@@ -54,16 +54,16 @@ class Work extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        list: state.workList ? (state.workList.data ? state.workList.data.data.list : []) : [],
-        total: state.workList ? (state.workList.data ? state.workList.data.data.total : 0) : 0,
-        isFetching: state.workList ? state.workList.isFetching : false,
+        list: state.work ? (state.work.data ? state.work.data.list : []) : [],
+        total: state.work ? (state.work.data ? state.work.data.total : 0) : 0,
+        isFetching: state.work ? state.work.isFetching : false,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         load: (page) => dispatch(workList("note", page)),
-        del: (id) => dispatch(workDel(id)).then(() => dispatch(workList({}, 1))),
+        del: (id) => dispatch(workDel(id)),
         setCompleted: (work) => dispatch(workSetCompleted(work)),
     }
 }

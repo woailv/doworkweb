@@ -3,98 +3,102 @@ import {CALL_API} from '../middleware/api'
 export let POST = "POST"
 export let GET = "GET";
 
-export const MODIFY_DATA = "MODIFY_DATA"
-export const MODIFY_SUCCESS = "MODIFY_SUCCESS"
-export const MODIFY_FAILURE = "MODIFY_FAILURE"
-export const RESET_MODIFY_INFO = "RESET_MODIFY_INFO"
 
-//隐藏正在请求api的状态信息
-export const resetModifyInfo = () => ({
-    type: RESET_MODIFY_INFO
-})
+export const WORK_REQUEST = 'WORK_REQUEST'
+export const WORK_SUCCESS = 'WORK_SUCCESS'
+export const WORK_FAILURE = 'WORK_FAILURE'
+
+const workActions = [WORK_REQUEST, WORK_SUCCESS, WORK_FAILURE]
 
 //work新建
 export const workAdd = (text) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [MODIFY_DATA, MODIFY_SUCCESS, MODIFY_FAILURE],
+            types: workActions,
             endpoint: `/api/work/add`,
             method: POST,
             body: {text: text},
         },
-        data: "work新建",
+        desc: "work新建",
+        modify: (state, response) => {
+            state.data.list = [response.data, ...state.data.list]
+            return {...state}
+        }
     })
 }
 
 //work列表
-export const WORK_LIST_REQUEST = 'WORK_LIST_REQUEST'
-export const WORK_LIST_SUCCESS = 'WORK_LIST_SUCCESS'
-export const WORK_LIST_FAILURE = 'WORK_LIST_FAILURE'
-export const workList = (data, page) => (dispatch) => {
+export const workList = (data, page) => (dispatch, getState) => {
+    if (getState().work.desc === "work新建" || getState().work.desc === "work修改内容") {
+        return
+    }
     return dispatch({
         [CALL_API]: {
-            types: [WORK_LIST_REQUEST, WORK_LIST_SUCCESS, WORK_LIST_FAILURE],
+            types: workActions,
             endpoint: `/api/work/list`,
             method: POST,
             body: data,
             page: page,
         },
-        modify: (list) => {
-            return list.map((v) => {
-                return v
-            })
+        desc: "work列表",
+        modify: (state, response) => {
+            return {...state, data: response.data}
         }
     })
 }
 
 //work删除
-export const WORK_DEL_REQUEST = 'WORK_DEL_REQUEST'
-export const WORK_DEL_SUCCESS = 'WORK_DEL_SUCCESS'
-export const WORK_DEL_FAILURE = 'WORK_DEL_FAILURE'
 export const workDel = (id) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [WORK_DEL_REQUEST, WORK_DEL_SUCCESS, WORK_DEL_FAILURE],
+            types: workActions,
             endpoint: `/api/work/del`,
             method: POST,
             body: {id: id},
         },
+        desc: "work删除",
+        modify: (state, response) => {
+            state.data.list.splice(state.data.list.findIndex(item => item.id === id), 1)
+            return {...state}
+        }
     })
 }
 
-//work更新
-export const WORK_UPDATE_REQUEST = 'WORK_UPDATE_REQUEST'
-export const WORK_UPDATE_SUCCESS = 'WORK_UPDATE_SUCCESS'
-export const WORK_UPDATE_FAILURE = 'WORK_UPDATE_FAILURE'
-export const workUpdate = (data) => (dispatch) => {
+//work修改内容
+export const setText = (data) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [WORK_UPDATE_REQUEST, WORK_UPDATE_SUCCESS, WORK_UPDATE_FAILURE],
+            types: workActions,
             endpoint: `/api/work/setText`,
             method: POST,
             body: data,
         },
+        desc: "work修改内容",
+        modify: (state, response) => {
+            state.data.list = state.data.list.map((v) => {
+                return v.id === data.id ? {...v, text: data.text} : v
+            })
+            return {...state}
+        }
     })
 }
 
 //work修改完成状态
-export const WORK_SET_COMPLETED_REQUEST = 'WORK_SET_COMPLETED_REQUEST'
-export const WORK_SET_COMPLETED_SUCCESS = 'WORK_SET_COMPLETED_SUCCESS'
-export const WORK_SET_COMPLETED_FAILURE = 'WORK_SET_COMPLETED_FAILURE'
 export const workSetCompleted = (data) => (dispatch) => {
     return dispatch({
         [CALL_API]: {
-            types: [WORK_SET_COMPLETED_REQUEST, WORK_SET_COMPLETED_SUCCESS, WORK_SET_COMPLETED_FAILURE],
+            types: workActions,
             endpoint: `/api/work/setCompleted`,
             method: POST,
             body: data,
         },
-        data: "work修改完成状态",
-        modify: (list) => {
-            return list.map((v) => {
-                return {...v, completed: v.id == data.id ? data.completed : v.completed}
+        desc: "work修改完成状态",
+        modify: (state, response) => {
+            state.data.list.map((v, k) => {
+                state.data.list[k].completed = v.id === data.id ? data.completed : state.data.list[k].completed
             })
-        },
+            return state
+        }
     })
 }
 
@@ -116,9 +120,3 @@ export const login = (uid, pwd) => (dispatch) => {
     })
 }
 
-
-//隐藏错误信息
-export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
-export const resetErrorMessage = () => ({
-    type: RESET_ERROR_MESSAGE
-})

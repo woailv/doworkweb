@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Input} from 'antd';
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {connect} from "react-redux"
-import {workAdd, workUpdate} from "../actions";
+import {workAdd, setText} from "../actions";
 
 const WorkAdd = ({save, location, history}) => {
     let {state} = location
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
             if (text === "" || text === undefined) {
                 return Promise.reject()
             }
-            return id ? dispatch(workUpdate({id, text})) : dispatch(workAdd(text))
+            return id ? dispatch(setText({id, text})) : dispatch(workAdd(text))
         }
     }
 }
