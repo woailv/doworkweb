@@ -29,7 +29,7 @@ class Work extends Component {
 
                 <Col span={20}>
                     <WorkHead/>
-                    {isFetching ? "正在获取数据..." : ""}
+                    {/*{isFetching ? "正在获取数据..." : ""}*/}
                     <div style={{paddingBottom: "15px"}}>
                         {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
                                                                      del={() => {

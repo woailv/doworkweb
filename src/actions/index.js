@@ -21,7 +21,7 @@ export const workAdd = (text) => (dispatch) => {
         },
         desc: "work新建",
         modify: (state, response) => {
-            state.data.list = [response.data, ...state.data.list]
+            state.data.list = state.data.list ? [response.data, ...state.data.list] : [response.data]
             return {...state}
         }
     })
