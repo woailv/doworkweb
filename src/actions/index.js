@@ -120,3 +120,16 @@ export const login = (uid, pwd) => (dispatch) => {
     })
 }
 
+//推出登录
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const logout = () => (dispatch) => {
+    return dispatch({
+        [CALL_API]: {
+            types: [LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE],
+            endpoint: `/api/user/logout`,
+            method: GET,
+        },
+    })
+}

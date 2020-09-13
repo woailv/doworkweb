@@ -3,12 +3,14 @@ import {Button, Input} from 'antd';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux"
 import {workAdd, setText} from "../actions";
+import Nav from "./Nav";
 
 const WorkAdd = ({save, location, history}) => {
     let {state} = location
     let text;
     return (
         <div>
+            <Nav/>
             <Input defaultValue={state && state.text} style={{height: "200px"}} type="textarea"
                    autosize={{minRows: 2, maxRows: 6}}
                    onChange={(event) => {

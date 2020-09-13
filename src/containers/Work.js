@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {workDel, workList, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Col, Row, Pagination} from "antd";
+import Nav from "./Nav";
 
 class Work extends Component {
     static propTypes = {
@@ -23,31 +24,34 @@ class Work extends Component {
     render() {
         let {total, list, isFetching} = this.props
         return (
-            <Row>
-                <Col span={3}>
-                </Col>
+            <div>
+                <Nav/>
+                <Row>
+                    <Col span={3}>
+                    </Col>
 
-                <Col span={20}>
-                    <WorkHead/>
-                    {/*{isFetching ? "正在获取数据..." : ""}*/}
-                    <div style={{paddingBottom: "15px"}}>
-                        {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
-                                                                     del={() => {
-                                                                         this.props.del(item.id)
-                                                                     }}
-                                                                     setCompleted={() => {
-                                                                         this.props.setCompleted({
-                                                                             id: item.id,
-                                                                             completed: !item.completed
-                                                                         })
-                                                                     }}
-                        />)) : "没有数据"}
-                    </div>
-                    <Pagination onChange={(page) => {
-                        this.props.load(page)
-                    }} simple total={total ? total : 1}/>
-                </Col>
-            </Row>
+                    <Col span={20}>
+                        <WorkHead/>
+                        {/*{isFetching ? "正在获取数据..." : ""}*/}
+                        <div style={{paddingBottom: "15px"}}>
+                            {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
+                                                                         del={() => {
+                                                                             this.props.del(item.id)
+                                                                         }}
+                                                                         setCompleted={() => {
+                                                                             this.props.setCompleted({
+                                                                                 id: item.id,
+                                                                                 completed: !item.completed
+                                                                             })
+                                                                         }}
+                            />)) : "没有数据"}
+                        </div>
+                        <Pagination onChange={(page) => {
+                            this.props.load(page)
+                        }} simple total={total ? total : 1}/>
+                    </Col>
+                </Row>
+            </div>
         )
     }
 }
