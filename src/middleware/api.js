@@ -1,6 +1,6 @@
-import { POST,} from "../actions";
+import {POST,} from "../actions";
 
-const API_ROOT = 'http://localhost:8888'
+export const API_ROOT = 'http://localhost:8888'
 
 const callApi = (endpoint, method, body, page) => {
     let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint//拼接完整请求路径
@@ -17,8 +17,7 @@ const callApi = (endpoint, method, body, page) => {
             if (!response.ok) {
                 return Promise.reject(json)
             }
-            return Object.assign({}, {...json}
-            )
+            return Object.assign({}, {...json})
         })
     )
 }

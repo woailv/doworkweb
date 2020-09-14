@@ -13,8 +13,6 @@ let store = createStore(
     applyMiddleware(thunk, api, createLogger()),//createLogger放在api后才能记录api产生的数据
 )
 
-store.dispatch(login("user1", "123"))
-
 ReactDOM.render(
     <App store={store}/>,
     // <p>a</p>,
