@@ -30,60 +30,72 @@ class Login extends React.Component {
                     <FormItem
                         label="邮箱"
                     >
-                        <Input defaultValue={this.state.email} onChange={
-                            (event) => {
-                                event.persist()
-                                this.setState(state => {
-                                        return {email: event.target.value}
-                                    }
-                                )
-                            }
-                        }/>
+                        <Input defaultValue={this.state.email}
+                               onChange={
+                                   (event) => {
+                                       event.persist()
+                                       this.setState(state => {
+                                               return {email: event.target.value}
+                                           }
+                                       )
+                                   }
+                               }
+                               onPressEnter={this.login()}
+                        />
                     </FormItem>
 
                     <FormItem
                         label="密码"
                     >
-                        <Input type="password" defaultValue={this.state.pwd} autoComplete="off" onChange={
-                            (event) => {
-                                event.persist()
-                                this.setState(state => {
-                                        return {pwd: event.target.value}
-                                    }
-                                )
-                            }
-                        }/>
+                        <Input type="password" defaultValue={this.state.pwd} autoComplete="off"
+                               onChange={
+                                   (event) => {
+                                       event.persist()
+                                       this.setState(state => {
+                                               return {pwd: event.target.value}
+                                           }
+                                       )
+                                   }
+                               }
+                               onPressEnter={this.login()}
+                        />
                     </FormItem>
 
                     <FormItem style={{textAlign: "center"}}>
-                        <Button type="primary" onClick={() => {
-                            fetch(API_ROOT + "/api/user/login",
-                                {
-                                    method: "POST",
-                                    body: JSON.stringify({email: this.state.email, pwd: this.state.pwd}),
-                                    credentials: "include",
-                                },
-                            ).then(
-                                response => response.json().then(
-                                    json => {
-                                        if (!response.ok) {
-                                            return Promise.reject(json)
-                                        }
-                                        return Object.assign({}, {...json})
-                                    }
-                                )
-                            ).then(response => {
-                                if (response.code === 1) {
-                                    this.props.history.push("/")
-                                } else {
-                                    alert(response.msg)
-                                }
-                            })
-                        }}>登录</Button>
+                        <Button type="primary"
+                                onClick={this.login()}
+                        >登录</Button>
                     </FormItem>
                 </Form>
             </div>
         );
+    }
+
+    login() {
+        return () => {
+            fetch(API_ROOT + "/api/user/login",
+                {
+                    method: "POST",
+                    body: JSON.stringify({email: this.state.email, pwd: this.state.pwd}),
+                    credentials: "include",
+                },
+            ).then(
+                response => response.json().then(
+                    json => {
+                        if (!response.ok) {
+                            return Promise.reject(json)
+                        }
+                        return Object.assign({}, {...json})
+                    }
+                )
+            ).then(response => {
+                if (response.code === 1) {
+                    this.props.history.push("/")
+                } else {
+                    alert(response.msg)
+                }
+            })
+        };
     }
 }
 
