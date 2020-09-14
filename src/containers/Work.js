@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {workDel, workList, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
-import {Col, Row, Pagination} from "antd";
+import {Spin, Col, Row, Pagination} from "antd";
 import Nav from "./Nav";
 
 class Work extends Component {
@@ -25,6 +25,11 @@ class Work extends Component {
         let {total, list, isFetching} = this.props
         return (
             <div>
+                {isFetching ? <div style={{
+                    position: "absolute",
+                    top: "30%",
+                    left: "50%",
+                }}><Spin/></div> : ""}
                 <Nav/>
                 <Row>
                     <Col span={3}>
@@ -32,7 +37,6 @@ class Work extends Component {
 
                     <Col span={20}>
                         <WorkHead/>
-                        {/*{isFetching ? "正在获取数据..." : ""}*/}
                         <div style={{paddingBottom: "15px"}}>
                             {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
                                                                          del={() => {

@@ -1,4 +1,5 @@
 import {POST,} from "../actions";
+import {message} from 'antd';
 
 export const API_ROOT = 'http://localhost:8888'
 
@@ -47,7 +48,16 @@ export default store => next => action => {
     }
     //修改提交action中的type与数据并删除types
     const actionWith = data => {
-        const finalAction = Object.assign({}, action, data)
+        const finalAction = Object.assign({}, action, data, {
+            //服务端响应操作失败的消息
+            serverFail: (msg) => {
+                message.info(msg);
+            },
+            //请求发送失败
+            requestFail: (desc) => {
+                message.error(desc);
+            }
+        })
         delete finalAction[CALL_API]//删除键
         return finalAction
     }

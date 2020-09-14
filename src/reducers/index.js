@@ -4,7 +4,7 @@ import {combineReducers} from 'redux'
 const update = ({types}) => {
     const [requestType, successType, failureType] = types
     return (state = {}, action) => {
-        let {modify} = action
+        let {modify, serverFail, requestFail} = action
         switch (action.type) {
             case requestType:
                 return {
@@ -13,16 +13,28 @@ const update = ({types}) => {
                     desc: action.desc
                 }
             case successType:
-                let data = action.response
-                if (modify) {
-                    return {...modify(state, action.response), isFetching: false}
-                }
-                return {
-                    ...state,
-                    isFetching: false,
-                    data: data,
+                if (action.response.code === 1) {
+                    if (modify) {
+                        return {...modify(state, action.response), isFetching: false}
+                    }
+                    return {
+                        ...state,
+                        isFetching: false,
+                        data: action.response,
+                    }
+                } else {
+                    if (serverFail) {
+                        serverFail(action.response.msg)
+                    }
+                    return {
+                        ...state,
+                        isFetching: false
+                    }
                 }
             case failureType:
+                if (requestFail) {
+                    requestFail(state.desc)
+                }
                 return {
                     ...state,
                     isFetching: false
