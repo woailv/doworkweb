@@ -13,13 +13,20 @@ const callApi = (endpoint, method, body, page) => {
         method: method,
         body: JSON.stringify(body),
         credentials: "include",
-    } : {}).then(response =>
-        response.json().then(json => {
-            if (!response.ok) {
-                return Promise.reject(json)
+    } : {}).then(response => {
+            if (response.status === 403) {
+                window.location = "/login"
+                return Promise.reject({})
+            } else {
+                return response.json().then(json => {
+                        if (!response.ok) {
+                            return Promise.reject(json)
+                        }
+                        return Object.assign({}, {...json})
+                    }
+                )
             }
-            return Object.assign({}, {...json})
-        })
+        }
     )
 }
 
@@ -71,9 +78,11 @@ export default store => next => action => {
                 type: successType
             }))
         },
-        error => next(actionWith({//失败
-            type: failureType,
-            error: error.message || 'Something bad happened'
-        }))
+        error => {
+            return next(actionWith({//失败
+                type: failureType,
+                error: error.message || 'Something bad happened'
+            }))
+        }
     )
 }
