@@ -1,17 +1,18 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import Nav from "./Nav";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Work from "./Work";
-import WorkAdd from "./WorkAdd";
+import Work from "../containers/Work";
+import WorkAdd from "../containers/WorkAdd";
 import {Provider} from 'react-redux'
-import Login from "../components/Login";
+import Login from "./Login";
+import Register from "./Register";
 
 const App = ({store}) => (
     <Provider store={store}>
         <Router>
             <Switch>
                 <Route exact path="/login" component={Login}/>
+                <Route exact path="/register" component={Register}/>
                 <Route exact path="/" component={Work}/>
                 <Route exact path="/work" component={Work}/>
                 <Route path="/work/add" children={WorkAdd}/>

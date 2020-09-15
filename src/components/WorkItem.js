@@ -30,7 +30,7 @@ const WorkItem = ({workItem, del, setCompleted}) => {
                     </a>
                 </ButtonGroup>
             </div>
-            <div>
+            <div style={{marginTop:"10px"}}>
                 <span>{workItem.text}</span>
             </div>
         </div>) : ""

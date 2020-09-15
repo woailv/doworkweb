@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import api from './middleware/api'
 import rootReducer from './reducers'
 import {createLogger} from 'redux-logger'
-import App from "./containers/App";
+import App from "./components/App";
 import {login} from "./actions";
 
 let store = createStore(

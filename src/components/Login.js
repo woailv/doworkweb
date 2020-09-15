@@ -65,6 +65,10 @@ class Login extends React.Component {
                         <Button type="primary"
                                 onClick={this.login()}
                         >登录</Button>
+                        &nbsp;&nbsp;&nbsp;
+                        <Button onClick={() => {
+                            this.props.history.push("register")
+                        }}>{"注册 >"}</Button>
                     </FormItem>
                 </Form>
             </div>
