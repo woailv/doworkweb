@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Form, Input, Button} from "antd";
+import {Form, Input, Button, message} from "antd";
 import {withRouter} from "react-router-dom";
 import {API_ROOT} from "../middleware/api";
+import {POST} from "../actions";
 
 const FormItem = Form.Item;
 
@@ -11,13 +12,17 @@ class Register extends Component {
         this.state = {
             email: "857951500@qq.com",
             pwd: "123",
+            pwdSure: "123",
+            code: "",
+            btnCodeText: "获取验证码",
+            counter: 0,
         };
     }
 
     render() {
         const formItemLayout = {
-            labelCol: { span: 5 },
-            wrapperCol: { span: 19 },
+            labelCol: {span: 5},
+            wrapperCol: {span: 19},
         };
         return (<div style={{
             position: "absolute",
@@ -45,7 +50,38 @@ class Register extends Component {
                                }
                            }
                     />
-                    <Button style={{"marginTop":"5px"}}>获取验证码</Button>
+                    <Button disabled={this.state.counter !== 0} onClick={() => {
+                        fetch(API_ROOT + "/api/user/registerEmailKey", {
+                            method: POST,
+                            body: JSON.stringify({email: this.state.email}),
+                        }).then(
+                            response => {
+                                response.json().then(
+                                    response => {
+                                        message.info("获取验证码成功")
+                                        this.setState(state => ({
+                                            counter: 60,
+                                        }))
+                                        let timer = setInterval(() => {
+                                            this.setState(state => {
+                                                if (state.counter === 0) {
+                                                    clearInterval(timer)
+                                                    return
+                                                }
+                                                return {counter: state.counter - 1,}
+                                            })
+                                        }, 1000)
+                                    }
+                                )
+                            },
+                            error => {
+                                message.error("验证码获取失败")
+                            })
+                    }}
+                            style={{"marginTop": "5px"}}
+                    >
+                        {this.state.btnCodeText}<span>{this.state.counter > 0 ? this.state.counter : ""}</span>
+                    </Button>
                 </FormItem>
 
                 <FormItem
@@ -68,12 +104,12 @@ class Register extends Component {
                     label="确认密码"
                     {...formItemLayout}
                 >
-                    <Input type="password" defaultValue={this.state.pwd} autoComplete="off"
+                    <Input type="password" defaultValue={this.state.pwdSure} autoComplete="off"
                            onChange={
                                (event) => {
                                    event.persist()
                                    this.setState(state => {
-                                           return {pwd: event.target.value}
+                                           return {pwdSure: event.target.value}
                                        }
                                    )
                                }
@@ -84,12 +120,12 @@ class Register extends Component {
                     label="验证码"
                     {...formItemLayout}
                 >
-                    <Input type="password" defaultValue={this.state.pwd} autoComplete="off"
+                    <Input type="password" defaultValue={this.state.code} autoComplete="off"
                            onChange={
                                (event) => {
                                    event.persist()
                                    this.setState(state => {
-                                           return {pwd: event.target.value}
+                                           return {code: event.target.value}
                                        }
                                    )
                                }
@@ -103,7 +139,37 @@ class Register extends Component {
                     }}>{"< 登录"}</Button>
                     &nbsp;&nbsp;&nbsp;
                     <Button type="primary" onClick={() => {
-                        this.props.history.push("register")
+                        if (this.state.pwd !== this.state.pwdSure) {
+                            message.warn("密码不一致")
+                            return
+                        }
+                        fetch(API_ROOT + "/api/user/register", {
+                            method: POST,
+                            body: JSON.stringify({
+                                code: this.state.code,
+                                email: this.state.email,
+                                pwd: this.state.pwd,
+                            }),
+                        }).then(
+                            response => {
+                                response.json().then(
+                                    json => {
+                                        if (json.code === 1) {
+                                            message.info("注册成功")
+                                            this.props.history.push("login")
+                                        } else {
+                                            message.error(json.msg)
+                                        }
+                                    },
+                                    error => {
+                                        message.error(error)
+                                    }
+                                )
+                            },
+                            error => {
+                                message.error("注册失败")
+                            }
+                        )
                     }}>注册</Button>
                 </FormItem>
             </Form>
