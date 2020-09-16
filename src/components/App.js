@@ -21,4 +21,11 @@ const App = ({store}) => (
     </Provider>
 )
 
+/*
+* work
+* 笔记
+* 备忘录
+* 便签
+* */
+
 export default App

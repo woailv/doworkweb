@@ -6,6 +6,7 @@ import {workDel, workList, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Spin, Col, Row, Pagination} from "antd";
 import Nav from "./Nav";
+import WorkQuery from "./WorkQuery";
 
 class Work extends Component {
     static propTypes = {
@@ -33,8 +34,8 @@ class Work extends Component {
                 <Nav/>
                 <Row>
                     <Col span={3}>
+                        <WorkQuery/>
                     </Col>
-
                     <Col span={20}>
                         <WorkHead/>
                         <div style={{paddingBottom: "15px"}}>
