@@ -35,6 +35,7 @@ class Nav extends Component {
                 <Button style={{float: "right", marginTop: "-35px", marginRight: "10px"}} size="small"
                         onClick={() => {
                             // this.props.logout()
+                            //TODO 退出时需要清除reduces中的数据,否则会影响下一个用户登录
                             this.props.logout().then(() => {
                                 this.props.history.push("/login")
                             })
