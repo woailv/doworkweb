@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import WorkItem from "../components/WorkItem";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {workDel, workList, workSetCompleted} from "../actions";
+import {workDel, workList, workSetBelongDate, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Spin, Col, Row, Pagination} from "antd";
 import Nav from "./Nav";
-import WorkQuery from "./WorkQuery";
+import WorkQuery from "../components/WorkQuery";
 
 class Work extends Component {
     static propTypes = {
@@ -49,6 +49,9 @@ class Work extends Component {
                                                                                  completed: !item.completed
                                                                              })
                                                                          }}
+                                                                         setBelongDate={(date) => {
+                                                                             this.props.setBelongDate(item.id, date)
+                                                                         }}
                             />)) : "没有数据"}
                         </div>
                         <Pagination onChange={(page) => {
@@ -74,6 +77,7 @@ const mapDispatchToProps = (dispatch) => {
         load: (page) => dispatch(workList("note", page)),
         del: (id) => dispatch(workDel(id)),
         setCompleted: (work) => dispatch(workSetCompleted(work)),
+        setBelongDate: (id, date) => dispatch(workSetBelongDate({id, belong_date: date})),
     }
 }
 

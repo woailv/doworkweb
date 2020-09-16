@@ -26,6 +26,7 @@ const App = ({store}) => (
 * 笔记
 * 备忘录
 * 便签
+* 讨论主题(团队层面)
 * */
 
 export default App

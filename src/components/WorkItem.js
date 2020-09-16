@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 
 const ButtonGroup = Button.Group;
 
-const WorkItem = ({workItem, del, setCompleted}) => {
+const WorkItem = ({workItem, del, setCompleted, setBelongDate}) => {
     return (
         workItem ? (<div style={{
             paddingBottom: "5px",
@@ -21,7 +21,12 @@ const WorkItem = ({workItem, del, setCompleted}) => {
                 >
                     {workItem.completed ? "已完成" : "未完成"}
                 </Checkbox>
-                <DatePicker defaultValue={moment(workItem.belong_date)}/>
+                <DatePicker style={{"border": "none", "width": "105px"}} size={"small"}
+                            defaultValue={moment(workItem.belong_date)}
+                            onChange={(_, str) => {
+                                setBelongDate(str)
+                            }}
+                />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <ButtonGroup size="small">
                     <Popconfirm title="确定要删除吗？" cancelText={"取消"} okText={"确定"} onConfirm={() => del()}>

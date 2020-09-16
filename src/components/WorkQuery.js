@@ -2,7 +2,9 @@ import React from 'react';
 
 const WorkQuery = () => {
     return (
-        <div>workQuery</div>
+        <div>
+            查询条件
+        </div>
     )
 }
 

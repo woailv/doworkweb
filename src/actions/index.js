@@ -102,6 +102,25 @@ export const workSetCompleted = (data) => (dispatch) => {
     })
 }
 
+//work修改所属日期
+export const workSetBelongDate = (data) => (dispatch) => {
+    return dispatch({
+        [CALL_API]: {
+            types: workActions,
+            endpoint: `/api/work/setBelongDate`,
+            method: POST,
+            body: data,
+        },
+        desc: "work修改所属日期",
+        modify: (state, response) => {
+            state.data.list.map((v, k) => {
+                state.data.list[k].belong_date = v.id === data.id ? data.belong_date : state.data.list[k].belong_date
+            })
+            return state
+        }
+    })
+}
+
 //登录
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
