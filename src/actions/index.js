@@ -28,16 +28,16 @@ export const workAdd = (text) => (dispatch) => {
 }
 
 //work列表
-export const workList = (data, page) => (dispatch, getState) => {
-    if (getState().work.desc === "work新建" || getState().work.desc === "work修改内容") {
-        return
-    }
+export const workList = (page) => (dispatch, getState) => {
+    // if (getState().work.desc === "work新建" || getState().work.desc === "work修改内容") {
+    //     return
+    // }
     return dispatch({
         [CALL_API]: {
             types: workActions,
             endpoint: `/api/work/list`,
             method: POST,
-            body: data,
+            body: getState().work.query ? getState().work.query : {},
             page: page,
         },
         desc: "work列表",
@@ -124,9 +124,17 @@ export const workSetBelongDate = (data) => (dispatch) => {
 //改变查询条件
 export const selectCompletedStatus = (completed) => {
     return {
+        desc: "改变完成状态查询条件",
         type: WORK_SUCCESS,
         modify: (state) => {
-            return {...state, query: {...state.query, completed: completed}}
+            if (completed == null) {
+                if (state.query) {
+                    delete state.query["completed"]
+                }
+                return state
+            } else {
+                return {...state, query: {...state.query, completed: completed}}
+            }
         }
     }
 }

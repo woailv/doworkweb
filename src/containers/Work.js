@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: (page) => dispatch(workList("note", page)),
+        load: (page) => dispatch(workList(page)),
         del: (id) => dispatch(workDel(id)),
         setCompleted: (work) => dispatch(workSetCompleted(work)),
         setBelongDate: (id, date) => dispatch(workSetBelongDate({id, belong_date: date})),

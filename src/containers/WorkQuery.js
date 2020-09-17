@@ -1,17 +1,21 @@
 import React from 'react';
 import {Radio, DatePicker} from "antd";
 import {connect} from "react-redux"
-import {selectCompletedStatus} from "../actions";
+import {selectCompletedStatus, workList} from "../actions";
 
 const RadioGroup = Radio.Group;
 
-const WorkQuery = ({selectCompleted}) => {
+const WorkQuery = ({completed, selectCompleted, workList}) => {
     return (
         <div style={{marginTop: "10px", marginLeft: "10px"}}>
-            <RadioGroup onChange={(event) => {
-                selectCompleted(event.target.value)
-            }}>
-                <Radio key="a" value={null}>全部</Radio>
+            <RadioGroup
+                onChange={(event) => {
+                    selectCompleted(event.target.value)
+                    workList()
+                }}
+                value={completed}
+            >
+                <Radio key="a" value={undefined}>全部</Radio>
                 <Radio key="b" value={false}>未完成</Radio>
                 <Radio key="c" value={true}>已完成</Radio>
             </RadioGroup>
@@ -30,11 +34,14 @@ const WorkQuery = ({selectCompleted}) => {
 
 export default connect(
     (state) => {
-        return {}
+        return {
+            completed: state.work.query ? state.work.query.completed : undefined,
+        }
     },
     (dispatch) => {
         return {
-            selectCompleted: (completed) => dispatch(selectCompletedStatus(completed))
+            selectCompleted: (completed) => dispatch(selectCompletedStatus(completed)),
+            workList: () => dispatch(workList())
         }
     }
 )(WorkQuery)
