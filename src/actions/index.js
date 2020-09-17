@@ -121,6 +121,16 @@ export const workSetBelongDate = (data) => (dispatch) => {
     })
 }
 
+//改变查询条件
+export const selectCompletedStatus = (completed) => {
+    return {
+        type: WORK_SUCCESS,
+        modify: (state) => {
+            return {...state, query: {...state.query, completed: completed}}
+        }
+    }
+}
+
 //登录
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -139,7 +149,7 @@ export const login = (uid, pwd) => (dispatch) => {
     })
 }
 
-//推出登录
+//退出登录
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'

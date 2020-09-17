@@ -1,7 +1,8 @@
 import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
+import {LOGOUT_REQUEST, LOGOUT_SUCCESS} from "../actions";
 
-const update = ({types}) => {
+const stateAction = ({types}) => {
     const [requestType, successType, failureType] = types
     return (state = {}, action) => {
         let {modify, serverFail, requestFail} = action
@@ -13,6 +14,11 @@ const update = ({types}) => {
                     desc: action.desc
                 }
             case successType:
+                if (!action.response) {
+                    if (modify) {
+                        return {...modify(state), isFetching: false}
+                    }
+                }
                 if (action.response.code === 1) {
                     if (modify) {
                         return {...modify(state, action.response), isFetching: false}
@@ -39,6 +45,11 @@ const update = ({types}) => {
                     ...state,
                     isFetching: false
                 }
+            //退出登录清空数据
+            case LOGOUT_REQUEST:
+                return {}
+            case LOGOUT_SUCCESS:
+                return {}
             default:
                 return state
         }
@@ -46,7 +57,7 @@ const update = ({types}) => {
 }
 
 const rootReducer = combineReducers({
-    work: update({
+    work: stateAction({
         types: [
             ActionTypes.WORK_REQUEST,
             ActionTypes.WORK_SUCCESS,
