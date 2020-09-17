@@ -1,15 +1,16 @@
 import React from 'react';
 import {Radio, DatePicker} from "antd";
 import {connect} from "react-redux"
-import {selectCompletedStatus, workList} from "../actions";
+import {selectCompletedStatus, selectCurrentPage, workList} from "../actions";
 
 const RadioGroup = Radio.Group;
 
-const WorkQuery = ({completed, selectCompleted, workList}) => {
+const WorkQuery = ({completed, selectCompleted, workList, selectCurrentPage}) => {
     return (
         <div style={{marginTop: "10px", marginLeft: "10px"}}>
             <RadioGroup
                 onChange={(event) => {
+                    selectCurrentPage()
                     selectCompleted(event.target.value)
                     workList()
                 }}
@@ -41,7 +42,8 @@ export default connect(
     (dispatch) => {
         return {
             selectCompleted: (completed) => dispatch(selectCompletedStatus(completed)),
-            workList: () => dispatch(workList())
+            workList: () => dispatch(workList()),
+            selectCurrentPage: () => dispatch(selectCurrentPage(1)),
         }
     }
 )(WorkQuery)

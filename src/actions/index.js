@@ -10,6 +10,8 @@ export const WORK_FAILURE = 'WORK_FAILURE'
 
 const workActions = [WORK_REQUEST, WORK_SUCCESS, WORK_FAILURE]
 
+export const WORK_SYNC_ACTION = 'WORK_SYNC_ACTION'
+
 //work新建
 export const workAdd = (text) => (dispatch) => {
     return dispatch({
@@ -28,7 +30,7 @@ export const workAdd = (text) => (dispatch) => {
 }
 
 //work列表
-export const workList = (page) => (dispatch, getState) => {
+export const workList = () => (dispatch, getState) => {
     // if (getState().work.desc === "work新建" || getState().work.desc === "work修改内容") {
     //     return
     // }
@@ -38,7 +40,7 @@ export const workList = (page) => (dispatch, getState) => {
             endpoint: `/api/work/list`,
             method: POST,
             body: getState().work.query ? getState().work.query : {},
-            page: page,
+            page: getState().work.currentPage,
         },
         desc: "work列表",
         modify: (state, response) => {
@@ -125,7 +127,7 @@ export const workSetBelongDate = (data) => (dispatch) => {
 export const selectCompletedStatus = (completed) => {
     return {
         desc: "改变完成状态查询条件",
-        type: WORK_SUCCESS,
+        type: WORK_SYNC_ACTION,
         modify: (state) => {
             if (completed == null) {
                 if (state.query) {
@@ -135,6 +137,17 @@ export const selectCompletedStatus = (completed) => {
             } else {
                 return {...state, query: {...state.query, completed: completed}}
             }
+        }
+    }
+}
+
+//修改页码
+export const selectCurrentPage = (currentPage) => {
+    return {
+        desc: "选择页码",
+        type: WORK_SYNC_ACTION,
+        modify: (state) => {
+            return {...state, currentPage}
         }
     }
 }

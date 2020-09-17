@@ -1,10 +1,10 @@
 import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
-import {LOGOUT_REQUEST, LOGOUT_SUCCESS} from "../actions";
+import {LOGOUT_REQUEST, LOGOUT_SUCCESS, WORK_SYNC_ACTION} from "../actions";
 
-const stateAction = ({types}) => {
+const listState = ({types, syncAction}) => {
     const [requestType, successType, failureType] = types
-    return (state = {}, action) => {
+    return (state = {query: {}, currentPage: 1}, action) => {
         let {modify, serverFail, requestFail} = action
         switch (action.type) {
             case requestType:
@@ -14,11 +14,6 @@ const stateAction = ({types}) => {
                     desc: action.desc
                 }
             case successType:
-                if (!action.response) {
-                    if (modify) {
-                        return {...modify(state), isFetching: false}
-                    }
-                }
                 if (action.response.code === 1) {
                     if (modify) {
                         return {...modify(state, action.response), isFetching: false}
@@ -45,6 +40,8 @@ const stateAction = ({types}) => {
                     ...state,
                     isFetching: false
                 }
+            case syncAction:
+                return {...modify(state), isFetching: false}
             //退出登录清空数据
             case LOGOUT_REQUEST:
                 return {}
@@ -57,12 +54,13 @@ const stateAction = ({types}) => {
 }
 
 const rootReducer = combineReducers({
-    work: stateAction({
+    work: listState({
         types: [
             ActionTypes.WORK_REQUEST,
             ActionTypes.WORK_SUCCESS,
             ActionTypes.WORK_FAILURE,
-        ]
+        ],
+        syncAction: WORK_SYNC_ACTION,
     }),
     // login: update({
     //     types: [

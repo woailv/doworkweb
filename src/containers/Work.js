@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import WorkItem from "../components/WorkItem";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {workDel, workList, workSetBelongDate, workSetCompleted} from "../actions";
+import {selectCurrentPage, workDel, workList, workSetBelongDate, workSetCompleted} from "../actions";
 import WorkHead from "../components/WorkHead";
 import {Spin, Col, Row, Pagination} from "antd";
 import Nav from "./Nav";
@@ -19,7 +19,7 @@ class Work extends Component {
     }
 
     componentDidMount() {
-        this.props.load(1)
+        this.props.workList()
     }
 
     render() {
@@ -41,7 +41,7 @@ class Work extends Component {
                         <div style={{paddingBottom: "15px"}}>
                             {list ? list.map((item, index) => (<WorkItem key={item.id} workItem={item}
                                                                          del={() => {
-                                                                             this.props.del(item.id)
+                                                                             this.props.workDel(item.id)
                                                                          }}
                                                                          setCompleted={() => {
                                                                              this.props.setCompleted({
@@ -54,8 +54,9 @@ class Work extends Component {
                                                                          }}
                             />)) : "没有数据"}
                         </div>
-                        <Pagination onChange={(page) => {
-                            this.props.load(page)
+                        <Pagination current={this.props.currentPage} onChange={(page) => {
+                            this.props.selectCurrentPage(page)
+                            this.props.workList()
                         }} simple total={total ? total : 1}/>
                     </Col>
                 </Row>
@@ -69,13 +70,15 @@ const mapStateToProps = (state) => {
         list: state.work ? (state.work.data ? state.work.data.list : []) : [],
         total: state.work ? (state.work.data ? state.work.data.total : 0) : 0,
         isFetching: state.work ? state.work.isFetching : false,
+        currentPage: state.work ? state.work.currentPage : 1,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: (page) => dispatch(workList(page)),
-        del: (id) => dispatch(workDel(id)),
+        workList: () => dispatch(workList()),
+        workDel: (id) => dispatch(workDel(id)),
+        selectCurrentPage: (currentPage) => dispatch(selectCurrentPage(currentPage)),
         setCompleted: (work) => dispatch(workSetCompleted(work)),
         setBelongDate: (id, date) => dispatch(workSetBelongDate({id, belong_date: date})),
     }
