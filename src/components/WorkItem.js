@@ -13,14 +13,7 @@ const WorkItem = ({workItem, del, setCompleted, setBelongDate}) => {
             borderBottom: "medium solid rgb(110, 50, 200)",
         }}>
             <div>
-                <Checkbox
-                    onChange={() => {
-                        setCompleted()
-                    }}
-                    checked={workItem.completed}
-                >
-                    {workItem.completed ? "已完成" : "未完成"}
-                </Checkbox>
+
                 <DatePicker style={{"border": "none", "width": "105px"}} size={"small"}
                             defaultValue={moment(workItem.belong_date)}
                             onChange={(_, str) => {
@@ -28,17 +21,24 @@ const WorkItem = ({workItem, del, setCompleted, setBelongDate}) => {
                             }}
                 />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <ButtonGroup size="small">
-                    <Popconfirm title="确定要删除吗？" cancelText={"取消"} okText={"确定"} onConfirm={() => del()}>
-                        <a style={{"paddingLeft": "5px", "paddingRight": "5px"}} href="#">删除</a>
-                    </Popconfirm>
-                    <a>
-                        <Link to={{pathname: "/work/add", state: workItem}}>编辑</Link>
-                    </a>
-                </ButtonGroup>
+
             </div>
             <div style={{marginTop: "10px"}}>
+                <Checkbox
+                    onChange={() => {
+                        setCompleted()
+                    }}
+                    checked={workItem.completed}
+                />
+                &nbsp;&nbsp;&nbsp;
                 <span>{workItem.text}</span>
+                <Link style={{float: "right"}} to={{pathname: "/work/add", state: workItem}}>编辑</Link>
+                <div style={{float: "right"}}>
+                    <Popconfirm title="确定要删除吗？" cancelText={"取消"} okText={"确定"}
+                                onConfirm={() => del()}>
+                        <a style={{"paddingLeft": "5px", "paddingRight": "5px"}} href="#">删除</a>
+                    </Popconfirm>
+                </div>
             </div>
         </div>) : ""
     )
