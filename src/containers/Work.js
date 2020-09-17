@@ -6,7 +6,7 @@ import {workDel, workList, workSetBelongDate, workSetCompleted} from "../actions
 import WorkHead from "../components/WorkHead";
 import {Spin, Col, Row, Pagination} from "antd";
 import Nav from "./Nav";
-import WorkQuery from "../components/WorkQuery";
+import WorkQuery from "./WorkQuery";
 
 class Work extends Component {
     static propTypes = {
