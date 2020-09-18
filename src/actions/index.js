@@ -34,12 +34,15 @@ export const workList = () => (dispatch, getState) => {
     // if (getState().work.desc === "work新建" || getState().work.desc === "work修改内容") {
     //     return
     // }
+    let query = Object.assign({}, {...getState().work.query})
+    query.start_time = query.start_time ? query.start_time.startOf("day").unix() : undefined
+    query.end_time = query.end_time ? query.end_time.endOf("day").unix() : undefined
     return dispatch({
         [CALL_API]: {
             types: workActions,
             endpoint: `/api/work/list`,
             method: POST,
-            body: getState().work.query ? getState().work.query : {},
+            body: query,
             page: getState().work.currentPage,
         },
         desc: "work列表",
@@ -129,12 +132,7 @@ export const selectCompletedStatus = (completed) => {
         desc: "改变完成状态查询条件",
         type: WORK_SYNC_ACTION,
         modify: (state) => {
-            if (completed == null) {
-                delete state.query["completed"]
-                return state
-            } else {
-                return {...state, query: {...state.query, completed: completed}}
-            }
+            return {...state, query: {...state.query, completed: completed !== null ? completed : undefined}}
         }
     }
 }
@@ -156,11 +154,18 @@ export const selectStartTime = (startTime) => {
         desc: "选择开始时间",
         type: WORK_SYNC_ACTION,
         modify: (state) => {
-            if (!startTime) {
-                delete state.query["start_time"]
-                return state
-            }
-            return {...state, query: {...state.query, start_time: startTime}}
+            return {...state, query: {...state.query, start_time: startTime ? startTime : undefined}}
+        }
+    }
+}
+
+//查询结束时间
+export const selectEndTime = (endTime) => {
+    return {
+        desc: "选择结束时间",
+        type: WORK_SYNC_ACTION,
+        modify: (state) => {
+            return {...state, query: {...state.query, end_time: endTime ? endTime : undefined}}
         }
     }
 }
