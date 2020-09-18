@@ -123,16 +123,14 @@ export const workSetBelongDate = (data) => (dispatch) => {
     })
 }
 
-//改变查询条件
+//查询完成状态
 export const selectCompletedStatus = (completed) => {
     return {
         desc: "改变完成状态查询条件",
         type: WORK_SYNC_ACTION,
         modify: (state) => {
             if (completed == null) {
-                if (state.query) {
-                    delete state.query["completed"]
-                }
+                delete state.query["completed"]
                 return state
             } else {
                 return {...state, query: {...state.query, completed: completed}}
@@ -141,13 +139,28 @@ export const selectCompletedStatus = (completed) => {
     }
 }
 
-//修改页码
+//查询页码
 export const selectCurrentPage = (currentPage) => {
     return {
         desc: "选择页码",
         type: WORK_SYNC_ACTION,
         modify: (state) => {
             return {...state, currentPage}
+        }
+    }
+}
+
+//查询开始时间
+export const selectStartTime = (startTime) => {
+    return {
+        desc: "选择开始时间",
+        type: WORK_SYNC_ACTION,
+        modify: (state) => {
+            if (!startTime) {
+                delete state.query["start_time"]
+                return state
+            }
+            return {...state, query: {...state.query, start_time: startTime}}
         }
     }
 }

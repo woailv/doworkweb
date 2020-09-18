@@ -2,9 +2,10 @@ import * as ActionTypes from '../actions'
 import {combineReducers} from 'redux'
 import {LOGOUT_REQUEST, LOGOUT_SUCCESS, WORK_SYNC_ACTION} from "../actions";
 
+const defState = {query: {}, currentPage: 1, data: {list: [], total: 0}}
 const listState = ({types, syncAction}) => {
     const [requestType, successType, failureType] = types
-    return (state = {query: {}, currentPage: 1}, action) => {
+    return (state = defState, action) => {
         let {modify, serverFail, requestFail} = action
         switch (action.type) {
             case requestType:
@@ -43,10 +44,8 @@ const listState = ({types, syncAction}) => {
             case syncAction:
                 return {...modify(state), isFetching: false}
             //退出登录清空数据
-            case LOGOUT_REQUEST:
-                return {}
             case LOGOUT_SUCCESS:
-                return {}
+                return defState
             default:
                 return state
         }
