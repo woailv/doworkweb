@@ -120,7 +120,7 @@ class Register extends Component {
                     label="验证码"
                     {...formItemLayout}
                 >
-                    <Input type="password" defaultValue={this.state.code} autoComplete="off"
+                    <Input defaultValue={this.state.code} autoComplete="off"
                            onChange={
                                (event) => {
                                    event.persist()

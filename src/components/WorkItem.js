@@ -10,7 +10,7 @@ const WorkItem = ({workItem, del, setCompleted, setBelongDate}) => {
         workItem ? (<div style={{
             paddingBottom: "5px",
             paddingTop: "15px",
-            borderBottom: "medium solid rgb(110, 50, 200)",
+            borderBottom: "1px solid rgb(110, 50, 200)",
         }}>
             <div>
 

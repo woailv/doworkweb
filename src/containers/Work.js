@@ -54,10 +54,17 @@ class Work extends Component {
                                                                          }}
                             />)) : "没有数据"}
                         </div>
-                        <Pagination current={this.props.currentPage} onChange={(page) => {
-                            this.props.selectCurrentPage(page)
-                            this.props.workList()
-                        }} simple total={total ? total : 1}/>
+                        <div>
+                            <Pagination
+                                style={{"float": "left"}}
+                                current={this.props.currentPage}
+                                onChange={(page) => {
+                                    this.props.selectCurrentPage(page)
+                                    this.props.workList()
+                                }} simple total={total ? total : 1}
+                            />
+                            <span style={{"lineHeight":"25px"}}>共{total}条</span>
+                        </div>
                     </Col>
                 </Row>
             </div>
