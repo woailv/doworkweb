@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input} from 'antd';
+import {Button, Col, Input} from 'antd';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux"
 import {workAdd, setText} from "../actions";
@@ -11,26 +11,28 @@ const WorkAdd = ({save, location, history}) => {
     return (
         <div>
             <Nav/>
-            <Input defaultValue={state && state.text} style={{height: "200px"}} type="textarea"
-                   autosize={{minRows: 2, maxRows: 6}}
-                   onChange={(event) => {
-                       text = event.target.value
-                   }}
-                   onPressEnter={() => {
-                       save(text, state ? state.id : 0).then(
-                           history.push("/work")
-                       )
-                   }}
-            />
-            <Button type="primary"
-                    onClick={() => {
-                        save(text, state ? state.id : 0).then(
-                            history.push("/work")
-                        )
-                    }}
-            >
-                保存
-            </Button>
+            <Col style={{"marginTop":"30px"}} span={22} offset={1}>
+                <Input defaultValue={state && state.text} style={{height: "200px"}} type="textarea"
+                       autosize={{minRows: 2, maxRows: 6}}
+                       onChange={(event) => {
+                           text = event.target.value
+                       }}
+                       onPressEnter={() => {
+                           save(text, state ? state.id : 0).then(
+                               history.push("/work")
+                           )
+                       }}
+                />
+                <Button type="primary"
+                        onClick={() => {
+                            save(text, state ? state.id : 0).then(
+                                history.push("/work")
+                            )
+                        }}
+                >
+                    保存
+                </Button>
+            </Col>
         </div>
     )
 }
