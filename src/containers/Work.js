@@ -31,7 +31,6 @@ class Work extends Component {
                     top: "30%",
                     left: "50%",
                 }}><Spin/></div> : ""}
-                <Nav/>
                 <Row>
                     <Col span={3}>
                         <WorkQuery/>

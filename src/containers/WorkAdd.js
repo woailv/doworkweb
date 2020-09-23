@@ -10,7 +10,6 @@ const WorkAdd = ({save, location, history}) => {
     let text;
     return (
         <div>
-            <Nav/>
             <Col style={{"marginTop":"30px"}} span={22} offset={1}>
                 <Input defaultValue={state && state.text} style={{height: "200px"}} type="textarea"
                        autosize={{minRows: 2, maxRows: 6}}

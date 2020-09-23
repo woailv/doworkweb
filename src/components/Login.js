@@ -9,7 +9,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "857951500@qq.com",
+            email: "test",
             pwd: "123",
         };
     }
