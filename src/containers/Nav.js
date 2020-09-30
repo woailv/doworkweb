@@ -27,10 +27,10 @@ class Nav extends Component {
                     selectedKeys={[this.state.current]}
                 >
                     <Menu.Item key="/work">
-                        <Link to="/work">work</Link>
+                        <Link to="/work">任务</Link>
                     </Menu.Item>
                     <Menu.Item key="/note">
-                        <Link to="/note">note</Link>
+                        <Link to="/note">笔记</Link>
                     </Menu.Item>
                 </Menu>
 

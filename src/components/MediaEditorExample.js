@@ -36,6 +36,7 @@ class MediaEditorExample extends React.Component {
     }
 
     _handleKeyCommand(command, editorState) {
+        console.log(command)
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChange(newState);
