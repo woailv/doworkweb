@@ -85,10 +85,10 @@ class RichEditorExample extends React.Component {
                     <Editor
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}
-                        editorState={editorState}
                         handleKeyCommand={this.handleKeyCommand}
                         keyBindingFn={this.mapKeyToEditorCommand}
                         onChange={this.onChange}
+                        editorState={editorState}
                         placeholder="Tell a story..."
                         ref="editor"
                         spellCheck={true}

@@ -8,4 +8,4 @@ import MediaEditorExample from "./MediaEditorExample";
 import TweetEditorExample from "./TweetEditorExample";
 import IframedEditorExample from "./IframedEditorExample";
 
-export default IframedEditorExample
+export default RichEditorExample

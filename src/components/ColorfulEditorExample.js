@@ -1,5 +1,6 @@
 import React from 'react';
 import {convertToRaw, Editor, EditorState, Modifier, RichUtils} from 'draft-js'
+
 class ColorfulEditorExample extends React.Component {
     constructor(props) {
         super(props);
@@ -20,11 +21,11 @@ class ColorfulEditorExample extends React.Component {
         const selection = editorState.getSelection();
 
         // Let's just allow one color at a time. Turn off all active colors.
+        // 清楚选择区域的行内样式
         const nextContentState = Object.keys(colorStyleMap)
             .reduce((contentState, color) => {
                 return Modifier.removeInlineStyle(contentState, selection, color)
             }, editorState.getCurrentContent());
-
         let nextEditorState = EditorState.push(
             editorState,
             nextContentState,
@@ -33,15 +34,18 @@ class ColorfulEditorExample extends React.Component {
 
         const currentStyle = editorState.getCurrentInlineStyle();
 
-        // Unset style override for current color.
-        if (selection.isCollapsed()) {
+        //控制颜色选择列表状态
+        if (selection.isCollapsed()) {//true->当前没有选择内容,false->当前选择有内容
             nextEditorState = currentStyle.reduce((state, color) => {
+                console.log("color:", color)//选择的时候不打印，打印将要取消的颜色
                 return RichUtils.toggleInlineStyle(state, color);
             }, nextEditorState);
         }
 
         // If the color is being toggled on, apply it.
+        // 切换到当前选择的样式
         if (!currentStyle.has(toggledColor)) {
+            console.log("toggledColor:", toggledColor)
             nextEditorState = RichUtils.toggleInlineStyle(
                 nextEditorState,
                 toggledColor
@@ -65,7 +69,6 @@ class ColorfulEditorExample extends React.Component {
                         customStyleMap={colorStyleMap}
                         editorState={editorState}
                         onChange={this.onChange}
-                        placeholder="Write something colorful..."
                         ref={(ref) => this.editor = ref}
                     />
                 </div>
@@ -118,14 +121,15 @@ const ColorControls = (props) => {
     var currentStyle = props.editorState.getCurrentInlineStyle();
     return (
         <div style={styles.controls}>
-            {COLORS.map(type =>
-                <StyleButton
-                    key={type.label}
-                    active={currentStyle.has(type.style)}
-                    label={type.label}
-                    onToggle={props.onToggle}
-                    style={type.style}
-                />
+            {COLORS.map(type => {
+                    return <StyleButton
+                        key={type.label}
+                        active={currentStyle.has(type.style)}
+                        label={type.label}
+                        onToggle={props.onToggle}
+                        style={type.style}
+                    />
+                }
             )}
         </div>
     );
